@@ -17,11 +17,29 @@ export class ClientRepository implements IClientRepository {
       });
   }
 
+  async edit(data: Client): Promise<void> {
+    createConnection()
+    .then(async (connection) => {
+      const clientRepository = connection.getRepository(Client);
+      const clientToUpdate = await clientRepository.findOne({ cpf: data.cpf });
+
+      clientToUpdate.name = data.name;
+      clientToUpdate.email = data.email;
+      clientToUpdate.address = data.address
+
+      await clientRepository.save(clientToUpdate);
+      await connection.close();
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
+  }
+
   async findByCpf(cpf: string): Promise<Client> {
     let client: Client;
     await createConnection()
       .then(async (connection) => {
-        let clientRepository = connection.getRepository(Client);
+        const clientRepository = connection.getRepository(Client);
         client = await clientRepository.findOne({ cpf });
         await connection.close();
       })

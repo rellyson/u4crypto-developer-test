@@ -1,6 +1,6 @@
 import { server } from '../../../infra/http/server';
 
-describe('Create client use case test', () => {
+describe('Edit client registration use case', () => {
   beforeAll((done) => {
     server.events.on('start', () => {
       done();
@@ -14,33 +14,29 @@ describe('Create client use case test', () => {
     server.stop();
   });
 
-  test('request should fail due to missing required fields', async () => {
+  test('request should fail due to missing cpf field', async () => {
     const options = {
       method: 'PUT',
       url: '/client',
       payload: JSON.stringify({
-        name: 'Zé das couve',
-        address: 'rua dos bobos, 0 - Disneyland, PA',
-        cnh: '121341243141231',
+        name: 'Zé das mandioca',
+        email: 'zedasmandioca@gmail.com',
       }),
     };
     const res = await server.inject(options);
     expect(res.statusCode).toBe(400);
   });
 
-  test('should create a client successfully', async () => {
+  test('should edit the client registration successfully', async () => {
     const options = {
-      method: 'POST',
+      method: 'PUT',
       url: '/client',
       payload: JSON.stringify({
-        name: 'Zé das couve',
-        email: 'zedascouve@gmail.com',
-        address: 'rua dos bobos, 0 - Disneyland, PA',
-        cpf: '12345678901',
-        cnh: '121341243141231',
+        email: 'zedasmandioca2@gmail.com',
+        cpf: '1231312313123',
       }),
     };
     const res = await server.inject(options);
-    expect(res.statusCode).toBe(201);
+    expect(res.statusCode).toBe(200);
   });
 });

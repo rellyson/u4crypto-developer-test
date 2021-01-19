@@ -1,31 +1,32 @@
 import * as Hapi from '@hapi/hapi';
-import { createClientUseCase } from '.';
+import { editClientRegistrationUseCase } from '.';
 import { IRequest } from '../../../infra/interfaces/Request';
 
-export class CreateClientController {
+export class EditClientRegistrationController {
   async handle(request: IRequest, h: Hapi.ResponseToolkit) {
-    const { name, email, address, cpf, cnh } = request.payload;
+    const { name, email, address, cpf } = request.payload;
 
-    if (!name || !email || !address || !cpf || !cnh) {
+    if (!cpf) {
       return h
-        .response({ error: 'request cannot be processed because there are missing fields' })
+        .response({
+          error: `client cpf was not provided`,
+        })
         .code(400);
     }
 
     try {
-      await createClientUseCase.execute({
+      await editClientRegistrationUseCase.execute({
         name,
         email,
         address,
         cpf,
-        cnh,
       });
 
       return h
         .response({
-          message: `client with email ${email} created successfully`,
+          message: `client edited successfully`,
         })
-        .code(201);
+        .code(200);
     } catch (error) {
       return h
         .response({ error: error.message || 'unexpected error' })
