@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 import { ThirdParty } from './ThirdParty';
 import { Vehicle } from './Vehicle';
 
@@ -10,7 +10,7 @@ export class Accident {
   @Column()
   clientCpf: string;
 
-  @Column()
+  @ManyToOne(type => Vehicle, vehicle => vehicle.renavam)
   vehicle: Vehicle;
 
   @ManyToMany((type) => ThirdParty, (thirdParty) => thirdParty.cnh)

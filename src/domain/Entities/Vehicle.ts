@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Accident } from './Accident';
 
 @Entity()
 export class Vehicle {
@@ -19,4 +20,7 @@ export class Vehicle {
 
   @Column()
   manufactureYear: string;
+
+  @OneToMany((type) => Accident, (accident) => accident.id)
+  accidents: Accident[];
 }
