@@ -1,0 +1,10 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "./src",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "silent": true,
+  "testTimeout": 12000,
+  "testEnvironment": "node"
+}
