@@ -20,16 +20,25 @@ export class Client {
   name: string;
 
   @Column()
-  email: string;
-
-  @Column()
-  address: string;
+  rg: string;
 
   @Column()
   cpf: string;
 
   @Column()
   cnh: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  address: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  federalUnit: string;
 
   @OneToMany((type) => Accident, (accident) => accident.client)
   accidents?: Accident[];

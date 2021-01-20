@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  Unique,
 } from 'typeorm';
 import { Accident } from './Accident';
 
 @Entity()
+@Unique(['renavam'])
 export class Vehicle {
   @PrimaryGeneratedColumn('uuid')
   id?: string;

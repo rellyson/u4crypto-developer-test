@@ -5,5 +5,5 @@ export interface IClientRepository {
   save(client: Client): Promise<Client>;
   edit(client: Client): Promise<void>;
   findByCpf(cpf: string): Promise<Client>;
-  insertAccident(client: Client, accident: Accident): Promise<void>;
+  addAccident(client: Client, accident: Accident): Promise<void>;
 }

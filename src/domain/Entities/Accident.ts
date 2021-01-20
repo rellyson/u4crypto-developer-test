@@ -19,11 +19,11 @@ export class Accident {
   id?: string;
 
   @ManyToOne((type) => Client)
-  @JoinColumn({ referencedColumnName: 'id' })
+  @JoinColumn()
   client: Client;
 
   @ManyToOne((type) => Vehicle)
-  @JoinColumn({ referencedColumnName: 'id' })
+  @JoinColumn()
   vehicle: Vehicle;
 
   @ManyToMany((type) => ThirdParty)

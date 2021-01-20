@@ -45,13 +45,13 @@ export class ClientRepository implements IClientRepository {
     }
   }
 
-  async insertAccident(client: Client, data: Accident): Promise<void> {
+  async addAccident(client: Client, data: Accident): Promise<void> {
     try {
       const clientRepository = getRepository(Client);
-      const clientToUpdate = await clientRepository.findOne({ cpf: client.cpf });
-      clientToUpdate.accidents = [data];
+      const clientToAddAccident = await clientRepository.findOne({cpf: client.cpf});
+      clientToAddAccident.accidents = [data];
 
-      await clientRepository.save(clientToUpdate);
+      await clientRepository.save(clientToAddAccident);
     } catch (error) {
       throw new Error(error);
     }

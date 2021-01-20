@@ -37,6 +37,6 @@ export class CreateAccidentEventUseCase {
     );
 
     const accident = await this.accidentRepository.save(client, vehicle, thirdParties);
-    await this.clientRepository.insertAccident(client, accident);
+    await this.clientRepository.addAccident(client, accident);
   }
 }
