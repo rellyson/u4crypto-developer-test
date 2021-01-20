@@ -1,9 +1,8 @@
 import * as Hapi from '@hapi/hapi';
 import { createAccidentEventUseCase } from '.';
-import { IRequest } from '../../../infra/interfaces/Request';
 
 export class CreateAccidentEventController {
-  async handle(request: IRequest, h: Hapi.ResponseToolkit) {
+  async handle(request, h: Hapi.ResponseToolkit) {
     const { client, vehicle, thirdParties } = request.payload;
 
     if (!client || !vehicle || !thirdParties) {
