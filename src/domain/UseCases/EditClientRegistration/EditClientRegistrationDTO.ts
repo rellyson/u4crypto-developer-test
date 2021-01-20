@@ -1,6 +1,8 @@
 export interface IEditClientRegistrationRequestDTO {
+    cpf: string;
     name?: string;
     email?: string;
     address?: string;
-    cpf: string;
+    city?: string;
+    federalUnit?: string;
 }

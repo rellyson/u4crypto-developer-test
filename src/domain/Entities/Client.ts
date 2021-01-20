@@ -11,7 +11,7 @@ import {
 import { Accident } from './Accident';
 
 @Entity()
-@Unique(['email', 'cpf', 'cnh'])
+@Unique(['rg', 'cpf', 'cnh', 'email'])
 export class Client {
   @PrimaryGeneratedColumn('uuid')
   id?: string;

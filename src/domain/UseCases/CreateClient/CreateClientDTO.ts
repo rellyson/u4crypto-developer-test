@@ -1,11 +1,14 @@
-import { Accident } from "../../Entities/Accident";
+import { Accident } from '../../Entities/Accident';
 
 export interface ICreateClientRequestDTO {
   id?: string;
   name: string;
-  email: string;
-  address: string;
+  rg: string;
   cpf: string;
   cnh: string;
-  accidents?: Accident[]
+  email: string;
+  address: string;
+  city: string;
+  federalUnit: string;
+  accidents?: Accident[];
 }

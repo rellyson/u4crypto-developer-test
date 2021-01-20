@@ -36,4 +36,16 @@ export class ThirdPartyRepository implements IThirdPartyRepository {
       throw new Error(error);
     }
   }
+
+  async migrate(id: string): Promise<void> {
+    try {
+      const thirdPartyRepository = getRepository(ThirdParty);
+      const thirdPartyToMigrate = await thirdPartyRepository.findOne({ id });
+      thirdPartyToMigrate.migratedAt = new Date(Date.now());
+
+      await thirdPartyRepository.save(thirdPartyToMigrate);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

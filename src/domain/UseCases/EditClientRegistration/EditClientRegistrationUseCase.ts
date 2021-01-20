@@ -3,21 +3,24 @@ import { IEditClientRegistrationRequestDTO } from './EditClientRegistrationDTO';
 
 export class EditClientRegistrationUseCase {
   constructor(private clientRepository: ClientRepository) {}
-  async execute(client: IEditClientRegistrationRequestDTO) {
-    const data = await this.clientRepository.findByCpf(client.cpf);
+  async execute(data: IEditClientRegistrationRequestDTO) {
+    const client = await this.clientRepository.findByCpf(data.cpf);
 
-    if (!data) {
+    if (!client) {
       throw new Error('the client provided was not found in the database');
     }
 
-    const dataToEdit = {
-      name: client.name ? client.name : data.name,
-      email: client.email ? client.email : data.email,
-      address: client.address ? client.address : data.address,
-      cpf: data.cpf,
-      cnh: data.cnh,
+    const clientToEdit = {
+      rg: client.rg,
+      cpf: client.cpf,
+      cnh: client.cnh,
+      name: data.name ? data.name : client.name,
+      email: data.email ? data.email : client.email,
+      address: data.address ? data.address : client.address,
+      city: data.city ? data.city : client.city,
+      federalUnit: data.federalUnit ? data.federalUnit : client.federalUnit,
     };
 
-    await this.clientRepository.edit(dataToEdit);
+    await this.clientRepository.edit(clientToEdit);
   }
 }

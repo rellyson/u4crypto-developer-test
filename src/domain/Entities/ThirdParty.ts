@@ -34,6 +34,9 @@ export class ThirdParty {
   @UpdateDateColumn()
   updatedAt?: Date;
 
+  @Column()
+  migratedAt?: Date;
+
   @DeleteDateColumn()
   deletedAt?: Date;
 }

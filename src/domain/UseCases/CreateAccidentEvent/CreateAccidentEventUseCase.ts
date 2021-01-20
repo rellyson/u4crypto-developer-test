@@ -20,7 +20,12 @@ export class CreateAccidentEventUseCase {
       throw new Error('client not found in the database');
     }
 
-    const vehicle = await this.vehicleRepository.save(data.vehicle);
+    let vehicle = await this.vehicleRepository.findByRenavam(data.vehicle.renavam);
+
+    if(!vehicle) {
+        vehicle = await this.vehicleRepository.save(data.vehicle);
+    }
+
     const thirdParties = Array<ThirdParty>();
 
     await Promise.all(

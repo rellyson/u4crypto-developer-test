@@ -1,14 +1,13 @@
 import * as Hapi from '@hapi/hapi';
 import { createClientUseCase } from '.';
-import { IRequest } from '../../../infra/interfaces/Request';
 
 export class CreateClientController {
-  async handle(request: IRequest, h: Hapi.ResponseToolkit) {
+  async handle(request, h: Hapi.ResponseToolkit) {
     const { name, email, address, cpf, cnh } = request.payload;
 
     if (!name || !email || !address || !cpf || !cnh) {
       return h
-        .response({ error: 'request cannot be processed because there are missing fields' })
+        .response({ error: 'request cannot be processed because there are some missing fields' })
         .code(400);
     }
 

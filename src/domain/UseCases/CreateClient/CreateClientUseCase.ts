@@ -7,24 +7,24 @@ export class CreateClientUseCase {
     private clientRepository: ClientRepository,
     private thirdPartyRepository: ThirdPartyRepository,
   ) {}
-  async execute(client: ICreateClientRequestDTO) {
-    const clientExists = await this.clientRepository.findByCpf(client.cpf);
+  async execute(data: ICreateClientRequestDTO) {
+    const clientExists = await this.clientRepository.findByCpf(data.cpf);
 
     if (clientExists) {
-      throw new Error('client provided already exists on database');
+      throw new Error('the client provided already exists on database');
     }
 
-    const isClientThirdParty = await this.thirdPartyRepository.findByCpf(client.cpf);
+    const isClientThirdParty = await this.thirdPartyRepository.findByCpf(data.cpf);
 
     if (isClientThirdParty) {
-      client.id = isClientThirdParty.id;
-      client.cpf = isClientThirdParty.cpf;
-      client.cnh = isClientThirdParty.cnh;
-      client.accidents = isClientThirdParty.accidents;
+      data.id = isClientThirdParty.id;
+      data.cpf = isClientThirdParty.cpf;
+      data.cnh = isClientThirdParty.cnh;
+      data.accidents = isClientThirdParty.accidents;
 
-      await this.thirdPartyRepository.delete(isClientThirdParty.id);
+      await this.thirdPartyRepository.migrate(isClientThirdParty.id);
     }
     
-    await this.clientRepository.save(client);
+    await this.clientRepository.save(data);
   }
 }
