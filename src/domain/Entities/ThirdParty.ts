@@ -1,11 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique,
+  ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { Accident } from './Accident';
 
 @Entity()
 @Unique(['cpf', 'cnh'])
 export class ThirdParty {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
   @Column()
   name: string;
@@ -16,6 +25,15 @@ export class ThirdParty {
   @Column()
   cnh: string;
 
-  @ManyToMany((type) => Accident, (accident) => accident.thirdParties)
+  @ManyToMany((type) => Accident)
   accidents: Accident[];
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

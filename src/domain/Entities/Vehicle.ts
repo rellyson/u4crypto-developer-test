@@ -1,10 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { Accident } from './Accident';
 
 @Entity()
 export class Vehicle {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
   @Column()
   renavam: string;
@@ -21,6 +29,15 @@ export class Vehicle {
   @Column()
   modelYear: string;
 
-  @OneToMany((type) => Accident, (accident) => accident.id)
+  @OneToMany((type) => Accident, (accident) => accident.vehicle)
   accidents: Accident[];
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

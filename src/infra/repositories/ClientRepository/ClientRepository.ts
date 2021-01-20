@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm';
+import { Accident } from '../../../domain/Entities/Accident';
 import { Client } from '../../../domain/Entities/Client';
 import { IClientRepository } from './IClientRepository';
 
@@ -39,6 +40,18 @@ export class ClientRepository implements IClientRepository {
       const client = await clientRepository.findOne({ cpf });
 
       return client;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async insertAccident(client: Client, data: Accident): Promise<void> {
+    try {
+      const clientRepository = getRepository(Client);
+      const clientToUpdate = await clientRepository.findOne({ cpf: client.cpf });
+      clientToUpdate.accidents = [data];
+
+      await clientRepository.save(clientToUpdate);
     } catch (error) {
       throw new Error(error);
     }

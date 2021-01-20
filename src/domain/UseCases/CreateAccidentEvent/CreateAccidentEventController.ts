@@ -4,9 +4,9 @@ import { IRequest } from '../../../infra/interfaces/Request';
 
 export class CreateAccidentEventController {
   async handle(request: IRequest, h: Hapi.ResponseToolkit) {
-    const { clientCpf, vehicle, thirdParties } = request.payload;
+    const { client, vehicle, thirdParties } = request.payload;
 
-    if (!clientCpf || !vehicle || !thirdParties) {
+    if (!client || !vehicle || !thirdParties) {
       return h
         .response({
           error:
@@ -17,7 +17,7 @@ export class CreateAccidentEventController {
 
     try {
       await createAccidentEventUseCase.execute({
-        clientCpf,
+        client,
         vehicle,
         thirdParties,
       });

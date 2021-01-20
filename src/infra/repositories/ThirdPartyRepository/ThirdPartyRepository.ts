@@ -5,10 +5,10 @@ import { IThirdPartyRepository } from './IThirdPartyRepository';
 export class ThirdPartyRepository implements IThirdPartyRepository {
   async save(data: ThirdParty): Promise<ThirdParty> {
     try {
-      const tirdPartyRepository = getRepository(ThirdParty);
+      const thirdPartyRepository = getRepository(ThirdParty);
       const thirdParty = new ThirdParty();
       Object.assign(thirdParty, data);
-      await tirdPartyRepository.save(thirdParty);
+      await thirdPartyRepository.save(thirdParty);
 
       return thirdParty;
     } catch (error) {
@@ -22,6 +22,16 @@ export class ThirdPartyRepository implements IThirdPartyRepository {
       const thirdParty = await thirdPartyRepository.findOne({ cpf });
 
       return thirdParty;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      const thirdPartyRepository = getRepository(ThirdParty);
+
+      await thirdPartyRepository.softDelete(id);
     } catch (error) {
       throw new Error(error);
     }

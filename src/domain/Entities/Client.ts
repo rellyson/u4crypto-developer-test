@@ -1,10 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
+import { Accident } from './Accident';
 
 @Entity()
 @Unique(['email', 'cpf', 'cnh'])
 export class Client {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
   @Column()
   name: string;
@@ -20,4 +30,16 @@ export class Client {
 
   @Column()
   cnh: string;
+
+  @OneToMany((type) => Accident, (accident) => accident.client)
+  accidents?: Accident[];
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

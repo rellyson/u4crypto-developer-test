@@ -3,7 +3,6 @@ import { ClientRepository } from '../../../infra/repositories/ClientRepository/C
 import { ThirdPartyRepository } from '../../../infra/repositories/ThirdPartyRepository/ThirdPartyRepository';
 import { VehicleRepository } from '../../../infra/repositories/VehicleRepository/VehicleRepository';
 import { ThirdParty } from '../../Entities/ThirdParty';
-import { Vehicle } from '../../Entities/Vehicle';
 import { ICreateAccidentEventRequestDTO } from './CreateAccidentEventDTO';
 
 export class CreateAccidentEventUseCase {
@@ -14,18 +13,18 @@ export class CreateAccidentEventUseCase {
     private vehicleRepository: VehicleRepository,
   ) {}
 
-  async execute(accident: ICreateAccidentEventRequestDTO) {
-    const client = await this.clientRepository.findByCpf(accident.clientCpf);
+  async execute(data: ICreateAccidentEventRequestDTO) {
+    const client = await this.clientRepository.findByCpf(data.client.cpf);
 
     if (!client) {
       throw new Error('client not found in the database');
     }
 
-    const vehicle = await this.vehicleRepository.save(accident.vehicle);
+    const vehicle = await this.vehicleRepository.save(data.vehicle);
     const thirdParties = Array<ThirdParty>();
 
     await Promise.all(
-      accident.thirdParties.map(async (thirdParty: ThirdParty) => {
+      data.thirdParties.map(async (thirdParty: ThirdParty) => {
         const thirdPartyData = await this.thirdPartyRepository.findByCpf(thirdParty.cpf);
 
         if (thirdPartyData) {
@@ -37,6 +36,7 @@ export class CreateAccidentEventUseCase {
       }),
     );
 
-    await this.accidentRepository.save(accident, vehicle, thirdParties);
+    const accident = await this.accidentRepository.save(client, vehicle, thirdParties);
+    await this.clientRepository.insertAccident(client, accident);
   }
 }

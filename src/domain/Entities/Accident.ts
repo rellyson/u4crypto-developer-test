@@ -1,21 +1,41 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  ManyToOne,
+  JoinColumn,
+  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
+import { Client } from './Client';
 import { ThirdParty } from './ThirdParty';
 import { Vehicle } from './Vehicle';
 
 @Entity()
 export class Accident {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
-  @Column()
-  clientCpf: string;
+  @ManyToOne((type) => Client)
+  @JoinColumn({ referencedColumnName: 'id' })
+  client: Client;
 
-  @ManyToOne(type => Vehicle, vehicle => vehicle.renavam)
+  @ManyToOne((type) => Vehicle)
+  @JoinColumn({ referencedColumnName: 'id' })
   vehicle: Vehicle;
 
-  @ManyToMany((type) => ThirdParty, (thirdParty) => thirdParty.cpf, {
-    cascade: true,
-  })
+  @ManyToMany((type) => ThirdParty)
   @JoinTable()
   thirdParties: ThirdParty[];
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
