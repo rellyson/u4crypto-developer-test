@@ -1,4 +1,3 @@
-import { Client } from '../../Entities/Client';
 import { ThirdParty } from '../../Entities/ThirdParty';
 import { Vehicle } from '../../Entities/Vehicle';
 
