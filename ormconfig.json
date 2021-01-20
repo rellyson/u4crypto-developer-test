@@ -7,6 +7,7 @@
    "database": "vehicle_protection",
    "synchronize": true,
    "logging": false,
+   "keepConnectionAlive": true,
    "entities": [
       "src/domain/Entities/**/*.ts"
    ],

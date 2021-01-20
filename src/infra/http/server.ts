@@ -1,4 +1,5 @@
 import { Server } from '@hapi/hapi';
+import { postgresConnection } from '../database/connection';
 import { routes } from './routes';
 
 export const server: Server = new Server({
@@ -9,6 +10,8 @@ export const server: Server = new Server({
 server.route(routes);
 
 const init = async () => {
+  await postgresConnection();
+
   await server
     .start()
     .then(() => {
