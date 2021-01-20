@@ -14,18 +14,20 @@ describe('Create client use case test', () => {
     server.stop();
   });
 
-  test('request should fail due to missing required fields', async () => {
+  test('request should fail due to missing some required fields', async () => {
     const options = {
-      method: 'PUT',
-      url: '/client',
+      method: 'POST',
+      url: '/accident',
       payload: JSON.stringify({
-        clientCpf: '1231312313123',
+        client: {
+          cpf: '12345678901',
+        },
         vehicle: {
           renavam: '0027831094681',
           brand: 'Fiat',
-          model: 'Marea SX 1.6 16V',
-          manufactureYear: '2004',
-          modelYear: '2005',
+          model: 'Uno Mille 1.0 com escada',
+          manufactureYear: '2007',
+          modelYear: '2008',
         },
       }),
     };
@@ -38,22 +40,26 @@ describe('Create client use case test', () => {
       method: 'POST',
       url: '/accident',
       payload: JSON.stringify({
-        clientCpf: '1231312313123',
+        client: {
+          cpf: '12345678901',
+        },
         vehicle: {
           renavam: '0027831094681',
           brand: 'Fiat',
-          model: 'Uno Mille com escada',
-          manufactureYear: '1997',
-          modelYear: '1998',
+          model: 'Marea SX 1.6 16V',
+          manufactureYear: '2004',
+          modelYear: '2005',
         },
         thirdParties: [
           {
             name: 'Zézim da esquina',
+            rg: '18354987',
             cpf: '15987632158',
             cnh: '423431243214',
           },
           {
             name: 'Dona Maria do supermercado três irmãos',
+            rg: '293657419',
             cpf: '98678135942',
             cnh: '819871564791',
           },

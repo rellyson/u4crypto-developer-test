@@ -3,21 +3,36 @@ import { createClientUseCase } from '.';
 
 export class CreateClientController {
   async handle(request, h: Hapi.ResponseToolkit) {
-    const { name, email, address, cpf, cnh } = request.payload;
+    const {
+      name,
+      rg,
+      cpf,
+      cnh,
+      email,
+      address,
+      city,
+      federalUnit,
+    } = request.payload;
 
-    if (!name || !email || !address || !cpf || !cnh) {
+    if (!name || !rg ||!cpf || !cnh || !email || !address || !city || !federalUnit) {
       return h
-        .response({ error: 'request cannot be processed because there are some missing fields' })
+        .response({
+          error:
+            'request cannot be processed because there are some missing fields',
+        })
         .code(400);
     }
 
     try {
       await createClientUseCase.execute({
         name,
-        email,
-        address,
+        rg,
         cpf,
         cnh,
+        email,
+        address,
+        city,
+        federalUnit,
       });
 
       return h

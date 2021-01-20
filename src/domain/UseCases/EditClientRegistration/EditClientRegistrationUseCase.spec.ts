@@ -19,7 +19,6 @@ describe('Edit client registration use case', () => {
       method: 'PUT',
       url: '/client',
       payload: JSON.stringify({
-        name: 'Zé das mandioca',
         email: 'zedasmandioca@gmail.com',
       }),
     };
@@ -32,8 +31,8 @@ describe('Edit client registration use case', () => {
       method: 'PUT',
       url: '/client',
       payload: JSON.stringify({
-        email: 'zedasmandioca2@gmail.com',
-        cpf: '1231312313123',
+        cpf: '12345678901',
+        email: 'zedascouve2@gmail.com',
       }),
     };
     const res = await server.inject(options);

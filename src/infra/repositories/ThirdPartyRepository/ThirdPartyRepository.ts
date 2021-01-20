@@ -41,9 +41,10 @@ export class ThirdPartyRepository implements IThirdPartyRepository {
     try {
       const thirdPartyRepository = getRepository(ThirdParty);
       const thirdPartyToMigrate = await thirdPartyRepository.findOne({ id });
-      thirdPartyToMigrate.migratedAt = new Date(Date.now());
+      thirdPartyToMigrate.migratedToClient = true;
 
       await thirdPartyRepository.save(thirdPartyToMigrate);
+      await thirdPartyRepository.softDelete(id);
     } catch (error) {
       throw new Error(error);
     }

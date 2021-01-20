@@ -20,6 +20,9 @@ export class ThirdParty {
   name: string;
 
   @Column()
+  rg: string;
+
+  @Column()
   cpf: string;
 
   @Column()
@@ -34,8 +37,8 @@ export class ThirdParty {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  @Column()
-  migratedAt?: Date;
+  @Column({ type: 'boolean', default: false })
+  migratedToClient: boolean;
 
   @DeleteDateColumn()
   deletedAt?: Date;
