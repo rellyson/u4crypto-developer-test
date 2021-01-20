@@ -13,7 +13,7 @@ export class Accident {
   @ManyToOne(type => Vehicle, vehicle => vehicle.renavam)
   vehicle: Vehicle;
 
-  @ManyToMany((type) => ThirdParty, (thirdParty) => thirdParty.cnh, {
+  @ManyToMany((type) => ThirdParty, (thirdParty) => thirdParty.cpf, {
     cascade: true,
   })
   @JoinTable()

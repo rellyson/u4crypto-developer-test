@@ -15,4 +15,15 @@ export class VehicleRepository implements IVehicleRepository {
       throw new Error(error);
     }
   }
+
+  async findByRenavam(renavam: string): Promise<Vehicle> {
+    try {
+      const vehicleRepository = getRepository(Vehicle);
+      const vehicle = await vehicleRepository.findOne({ renavam });
+
+      return vehicle;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

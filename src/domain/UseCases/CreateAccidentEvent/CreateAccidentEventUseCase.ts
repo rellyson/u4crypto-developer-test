@@ -3,6 +3,7 @@ import { ClientRepository } from '../../../infra/repositories/ClientRepository/C
 import { ThirdPartyRepository } from '../../../infra/repositories/ThirdPartyRepository/ThirdPartyRepository';
 import { VehicleRepository } from '../../../infra/repositories/VehicleRepository/VehicleRepository';
 import { ThirdParty } from '../../Entities/ThirdParty';
+import { Vehicle } from '../../Entities/Vehicle';
 import { ICreateAccidentEventRequestDTO } from './CreateAccidentEventDTO';
 
 export class CreateAccidentEventUseCase {
@@ -21,17 +22,20 @@ export class CreateAccidentEventUseCase {
     }
 
     const vehicle = await this.vehicleRepository.save(accident.vehicle);
-    const thirdParties = [];
+    const thirdParties = Array<ThirdParty>();
 
-    accident.thirdParties.map(async (thirdParty: ThirdParty) => {
-      let thirdPartyData = await this.thirdPartyRepository.findByCpf(thirdParty.cpf);
+    await Promise.all(
+      accident.thirdParties.map(async (thirdParty: ThirdParty) => {
+        const thirdPartyData = await this.thirdPartyRepository.findByCpf(thirdParty.cpf);
 
-      if (!thirdPartyData) {
-        thirdPartyData =  await this.thirdPartyRepository.save(thirdParty);
-      }
-
-      thirdParties.push(thirdPartyData);
-    });
+        if (thirdPartyData) {
+          thirdParties.push(thirdPartyData);
+        } else {
+          const newThirdPartyData = await this.thirdPartyRepository.save(thirdParty);
+          thirdParties.push(newThirdPartyData);
+        }
+      }),
+    );
 
     await this.accidentRepository.save(accident, vehicle, thirdParties);
   }

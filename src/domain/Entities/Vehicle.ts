@@ -16,10 +16,10 @@ export class Vehicle {
   model: string;
 
   @Column()
-  modelYear: string;
+  manufactureYear: string;
 
   @Column()
-  manufactureYear: string;
+  modelYear: string;
 
   @OneToMany((type) => Accident, (accident) => accident.id)
   accidents: Accident[];
